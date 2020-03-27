@@ -20,7 +20,7 @@ $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
 $pink: #eea2a4 !default;
 
-$primary: $cyan !default;
+$primary: $indigo !default;
 $secondray: $gray-500 !default;
 $success: $green !default;
 $warning: $yellow !default;
@@ -280,3 +280,6 @@ $progress-bg:                       $gray-200 !default;
 $progress-border-radius:            $border-radius !default;
 $progress-bar-color:                $white !default;
 $progress-bar-transition:           width .6s ease !default;
+
+// alert
+$alert-padding: .25rem .5rem;
