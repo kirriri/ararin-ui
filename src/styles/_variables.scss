@@ -15,7 +15,7 @@ $indigo: #1a94bc !default;
 $red: #ed5a65 !default;
 $orange: #fba414 !default;
 $green: #40a070 !default;
-$yellow: #ffd111 !default;
+$yellow: #fcc515 !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
 $pink: #eea2a4 !default;
@@ -282,4 +282,5 @@ $progress-bar-color:                $white !default;
 $progress-bar-transition:           width .6s ease !default;
 
 // alert
-$alert-padding: .25rem .5rem;
+$alert-padding:                     .6rem 1rem;
+$alert-transition:                  opacity .1s ease-in-out;

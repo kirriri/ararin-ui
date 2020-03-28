@@ -35,8 +35,8 @@ const Alert: React.FC<AlertProps> = props => {
             className={classes}
             {...restProps}
         >
-            { (title != undefined && title != null) && <h4>{title}</h4> }
-            <p>{children}</p>
+            { (title !== undefined && title !== null) && <h4 className="ararin-alert-tit">{title}</h4> }
+            <div className="ararin-alert-msg">{children}</div>
             { canClose && <span className="ararin-alert-close">x</span> }
         </div>
     )

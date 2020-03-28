@@ -1,6 +1,6 @@
 import React from 'react';
 import Button, { ButtonType, ButtonSize } from './components/Button/button'
-import Alert from './components/Alert/alert'
+import Alert, { AlertType } from './components/Alert/alert'
 
 const App: React.FC = () => {
 	return (
@@ -21,6 +21,25 @@ const App: React.FC = () => {
 			>11111</Button>
 			<div style={{padding: '10px', boxSizing: 'border-box'}}>
 				<Alert>11111111111</Alert>
+			</div>
+			<div style={{padding: '10px', boxSizing: 'border-box'}}>
+				<Alert
+					canClose={false}
+					title="提示标题"
+					type={AlertType.Success}
+				>this is a long description</Alert>
+			</div>
+			<div style={{padding: '10px', boxSizing: 'border-box'}}>
+				<Alert
+					title="提示标题"
+					type={AlertType.Warning}
+				>this is a long description</Alert>
+			</div>
+			<div style={{padding: '10px', boxSizing: 'border-box'}}>
+				<Alert
+					title="提示标题"
+					type={AlertType.Danger}
+				>this is a long description</Alert>
 			</div>
 		</div>
 	);

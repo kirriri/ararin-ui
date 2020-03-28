@@ -6,9 +6,47 @@
     border: $border-width soli transparent;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
-
-    h4 {
-        
+    line-height: $line-height-base;
+    h4.ararin-alert-tit {
+        font-size: $font-size-base;
+        margin-bottom: 0;
+        line-height: $line-height-base;
+    }
+    div.ararin-alert-msg {
+        font-size: $font-size-sm;
+    }
+    span.ararin-alert-close {
+        position: absolute;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        right: 10px;
+        top: 10px;
+        line-height: 1.2;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: $alert-transition;
+        color: $gray-100;
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 
+.ararin-alert-default {
+    @include alert-style($primary, $primary, $white)
+}
+
+.ararin-alert-success {
+    @include alert-style($success, $success, $white)
+}
+
+.ararin-alert-warning {
+    @include alert-style($warning, $warning, $white)
+}
+
+.ararin-alert-danger {
+    @include alert-style($danger, $danger, $white)
+}
