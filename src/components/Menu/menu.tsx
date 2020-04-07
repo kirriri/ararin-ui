@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import classNames from 'classnames'
+import { MenuItemProps } from './MenuItem/MenuItem';
 
 type MenuMode = 'horizontal' | 'vertical'
 type SelectCallback = (selectIndex: number) => void;
@@ -30,18 +31,28 @@ const Menu: React.FC<MenuProps> = props => {
     } = props
     const [ currentActive, setCurrentActive ] = useState(defaultIndex)
     const classes = classNames('ararin-menu', className, {
-        'menu-vertical': mode === 'vertical',
+        'ararin-menu-vertical': mode === 'vertical',
     })
+
     const handleClick = (index: number) => {
         setCurrentActive(index)
         if(onSelect) {
             onSelect(index)
         }
     }
+
     const passedContext: IMenuContext = {
         index: currentActive ? currentActive : 0,
         onSelect: handleClick
     }
+
+    const renderChildren = () => {
+        return React.Children.map(children, (child, index) => {
+            const childElement = child as React.FunctionComponentElement<MenuItemProps>
+            const { displayName } = childElement.type
+        })
+    }
+
     return (
         <ul className={classes} style={style}>
             <MenuContext.Provider value={passedContext}>
