@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import { MenuContext } from '../menu'
 
 export interface MenuItemProps {
-    index: number;
-    disabled?: boolean;
-    className?: string;
-    style?: React.CSSProperties;
+    index?: number,
+    disabled?: boolean,
+    className?: string,
+    style?: React.CSSProperties
 }
 
 const MenuItem: React.FC<MenuItemProps> = props => {
@@ -20,20 +20,20 @@ const MenuItem: React.FC<MenuItemProps> = props => {
     const context = useContext(MenuContext)
     const classes = classNames('ararin-menu-item', className, {
         'is-disabled': disabled,
-        'is-acitve': context.index === index
+        'is-active': context.index === index
     })
-
     const handleClick = () => {
-        if(context.onSelect && !disabled) {
+        if(context.onSelect && !disabled && (typeof index === 'number')) {
             context.onSelect(index)
         }
     }
-
-    return(
+    
+    return (
         <li className={classes} style={style} onClick={handleClick}>
             {children}
         </li>
     )
 }
 
+MenuItem.displayName = 'ArarinMenuItem'
 export default MenuItem

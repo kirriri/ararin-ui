@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import { MenuItemProps } from './menuItem';
+import { MenuItemProps } from './MenuItem/menuItem';
 
 type MenuMode = 'horizontal' | 'vertical'
 type SelectCallback = (selectIndex: number) => void
@@ -31,7 +31,8 @@ const Menu: React.FC<MenuProps> = props => {
     } = props
     const [currentActive, setCurrentActive] = useState(defaultIndex)
     const classess = classNames('ararin-menu', className, {
-        'ararin-menu-vertical': mode === 'vertical'
+        'ararin-menu-vertical': mode === 'vertical',
+        'ararin-menu-horizontal': mode !== 'vertical'
     })
     const handleClick = (index: number) => {
         setCurrentActive(index)
@@ -48,7 +49,7 @@ const Menu: React.FC<MenuProps> = props => {
         return React.Children.map(children, (child, index) => {
             const childElement = child as React.FunctionComponentElement<MenuItemProps>
             const { displayName } = childElement.type
-            if(displayName === 'ArarinMenuItem') {
+            if(displayName === 'ArarinMenuItem' || displayName === 'ArarinSubMenu') {
                 return React.cloneElement(childElement, { 
                     index
                 })
