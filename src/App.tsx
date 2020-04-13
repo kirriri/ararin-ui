@@ -46,7 +46,11 @@ const App: React.FC = () => {
 			</div>
 
 			<div style={{marginTop: '15px'}}>
-				<Menu defaultIndex={0} onSelect={() => {console.log(111111111111)}}>
+				<Menu 
+					defaultIndex={0} 
+					onSelect={() => {console.log(111111111111)}}
+					mode='vertical'
+				>
 					<MenuItem>
 						选项1
 					</MenuItem>

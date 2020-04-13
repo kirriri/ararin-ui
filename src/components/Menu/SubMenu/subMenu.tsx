@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponentElement } from 'react'
+import React, { useContext, useState, FunctionComponentElement } from 'react'
 import classNames from 'classnames'
 import { MenuContext } from '../menu'
 import { MenuItemProps } from '../MenuItem/menuItem'
@@ -16,11 +16,35 @@ const SubMenu: React.FC<SubMenuProps>  = props => {
         className,
         children
     } = props
+    const [ menuOpen, setMenuOpen ] = useState(false)
     const context = useContext(MenuContext)
     const classes = classNames('ararin-menu-item ararin-submenu-item', className, {
         'is-active': context.index === index
     })
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault()
+        setMenuOpen(!menuOpen)
+    }
+
+    let timer: any
+    const handleMouse = (e: React.MouseEvent, toogle: boolean) => {
+        clearTimeout(timer)
+        e.preventDefault()
+        timer = setTimeout(() => {
+            setMenuOpen(toogle)
+        }, 300)
+    }
+    const clickEvents = context.mode === 'vertical' ? {
+        onClick: handleClick
+    } : { }
+    const hoverEvents = context.mode !== 'vertical' ? {
+        onMouseEnter: (e: React.MouseEvent) => { handleMouse(e, true) },
+        onMouseLeave: (e: React.MouseEvent) => { handleMouse(e, false) }
+    } : {}
     const renderChildren = () => {
+        const subMenuClasses = classNames('ararin-submenu', {
+            'menu-opened': menuOpen
+        })
         const childrenCpmponent = React.Children.map(children, (child, index) => {
             const childElement = child as FunctionComponentElement<MenuItemProps>
             if(childElement.type.displayName === 'ArarinMenuItem') {
@@ -30,7 +54,7 @@ const SubMenu: React.FC<SubMenuProps>  = props => {
             }
         })
         return(
-            <ul className='ararin-submenu'>
+            <ul className={subMenuClasses}>
                 {childrenCpmponent}
             </ul>
         )
@@ -39,8 +63,13 @@ const SubMenu: React.FC<SubMenuProps>  = props => {
         <li
             key={index}
             className={classes}
+            {...hoverEvents}
         >
-            <div className="ararin-submenu-title">
+            <div 
+                className="ararin-submenu-title"
+                onClick={handleClick}
+                {...clickEvents}
+            >
                 {title}
             </div>
             {renderChildren()}
