@@ -1,42 +1,42 @@
-import React, { createContext, useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
-import { MenuItemProps } from './MenuItem/MenuItem';
+import { MenuItemProps } from './menuItem/menuItem';
 
 type MenuMode = 'horizontal' | 'vertical'
-type SelectCallback = (selectIndex: number) => void;
+type SelectCallback = (selectIndex: number) => void
 
 export interface MenuProps {
-    defaultIndex?: number;
-    className: string;
-    mode?: MenuMode;
-    style?: React.CSSProperties;
+    defaultIndex?: number,
+    className?: string,
+    mode?: MenuMode,
+    style?: React.CSSProperties,
     onSelect?: SelectCallback
 }
 
 interface IMenuContext {
-    index: number;
+    index: number,
     onSelect?: SelectCallback
 }
 
-export const MenuContext = createContext<IMenuContext>({index: 0})
+export const MenuContext = React.createContext<IMenuContext>({ index: 0 })
 
 const Menu: React.FC<MenuProps> = props => {
     const {
-        defaultIndex,
         className,
-        mode,
-        style,
+        defaultIndex,
         children,
-        onSelect
+        style,
+        mode,
+        onSelect,
     } = props
-    const [ currentActive, setCurrentActive ] = useState(defaultIndex)
-    const classes = classNames('ararin-menu', className, {
-        'ararin-menu-vertical': mode === 'vertical',
+    const [currentActive, setCurrentActive] = useState(defaultIndex)
+    const classess = classNames('ararin-menu', className, {
+        'ararin-menu-vertical': mode === 'vertical'
     })
 
     const handleClick = (index: number) => {
         setCurrentActive(index)
-        if(onSelect) {
+        if (onSelect) {
             onSelect(index)
         }
     }
@@ -50,16 +50,23 @@ const Menu: React.FC<MenuProps> = props => {
         return React.Children.map(children, (child, index) => {
             const childElement = child as React.FunctionComponentElement<MenuItemProps>
             const { displayName } = childElement.type
+            if(displayName === 'ArarinMenuItem') {
+                return React.cloneElement(childElement, { 
+                    index
+                })
+            }else {
+                console.error("Warning: Menu has a child which is not a MenuItem component")
+            }
         })
     }
 
     return (
-        <ul className={classes} style={style}>
+        <ul className={classess} style={style}>
             <MenuContext.Provider value={passedContext}>
-                {children}
+                {renderChildren()}
             </MenuContext.Provider>
         </ul>
-    )   
+    )
 }
 
 Menu.defaultProps = {

@@ -1,6 +1,8 @@
 import React from 'react';
 import Button, { ButtonType, ButtonSize } from './components/Button/button'
 import Alert, { AlertType } from './components/Alert/alert'
+import Menu from './components/Menu/menu';
+import MenuItem from './components/Menu/menuItem/menuItem';
 
 const App: React.FC = () => {
 	return (
@@ -40,6 +42,20 @@ const App: React.FC = () => {
 					title="提示标题"
 					type={AlertType.Danger}
 				>this is a long description</Alert>
+			</div>
+
+			<div style={{marginTop: '15px'}}>
+				<Menu defaultIndex={0} onSelect={() => {console.log(111111111111)}}>
+					<MenuItem>
+						选项1
+					</MenuItem>
+					<MenuItem>
+						选项2
+					</MenuItem>
+					<MenuItem>
+						选项3
+					</MenuItem>
+				</Menu>
 			</div>
 		</div>
 	);
