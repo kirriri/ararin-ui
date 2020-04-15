@@ -1,8 +1,14 @@
 import React from 'react';
-import Button, { ButtonType, ButtonSize } from './components/Button/button'
+import Button, { ButtonType } from './components/Button/button'
 import Alert, { AlertType } from './components/Alert/alert'
 import Menu from './components/Menu/menu';
-import MenuItem from './components/Menu/menuItem/menuItem';
+import MenuItem from './components/Menu/MenuItem/menuItem'
+import SubMenu from './components/Menu/SubMenu/subMenu'
+import Icon from './components/Icon/icon'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fas)
 
 const App: React.FC = () => {
 	return (
@@ -10,20 +16,20 @@ const App: React.FC = () => {
 			<Button
 				disabled
 				onClick={() => console.log(1)}
-			>11111</Button>
+			>11111</Button> 
 			<Button
 				autoFocus
 				type={ButtonType.Primary}
-				size={ButtonSize.Small}
+				size='sm'
 				onClick={() => console.log(2)}
 			>11111</Button>
 			<Button
 				type={ButtonType.Danger}
-
 			>11111</Button>
 			<div style={{padding: '10px', boxSizing: 'border-box'}}>
 				<Alert>11111111111</Alert>
 			</div>
+			<Icon icon="coffee" theme="danger" size="10x"></Icon>
 			<div style={{padding: '10px', boxSizing: 'border-box'}}>
 				<Alert
 					canClose={false}
@@ -45,10 +51,29 @@ const App: React.FC = () => {
 			</div>
 
 			<div style={{marginTop: '15px'}}>
-				<Menu defaultIndex={0} onSelect={() => {console.log(111111111111)}}>
+				<Menu 
+					defaultIndex='0' 
+					onSelect={() => {console.log(111111111111)}}
+					// mode='vertical'
+					defaultOpenSubmenus={['1']}
+				>
 					<MenuItem>
 						选项1
 					</MenuItem>
+					<SubMenu
+						title="dropdown"
+					>
+						<MenuItem>
+							test1
+						</MenuItem>
+						<SubMenu
+							title="二级"
+						>
+							<MenuItem>
+								test2
+							</MenuItem>
+						</SubMenu>
+					</SubMenu>
 					<MenuItem>
 						选项2
 					</MenuItem>
