@@ -54,7 +54,7 @@
     //   }
     // }
     .ararin-submenu {
-      display: none;
+      // display: none;
       list-style:none;
       padding-left: 0;
       white-space: nowrap;
@@ -69,9 +69,9 @@
         }
       }
     }
-    .ararin-submenu.menu-opened {
-      display: block;
-    }
+    // .ararin-submenu.menu-opened {
+    //   display: block;
+    // }
   }
   .ararin-menu-horizontal {
     >.ararin-menu-item {

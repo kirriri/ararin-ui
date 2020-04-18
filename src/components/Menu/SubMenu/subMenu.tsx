@@ -3,7 +3,8 @@ import classNames from 'classnames'
 import { MenuContext } from '../menu'
 import { MenuItemProps } from '../MenuItem/menuItem'
 import Icon from '../../Icon/icon'
-
+import { CSSTransition } from 'react-transition-group'
+import Transition from '../../Transition/transition'
 
 export interface SubMenuProps {
     index?: string,
@@ -47,7 +48,7 @@ const SubMenu: React.FC<SubMenuProps>  = props => {
     const hoverEvents = context.mode !== 'vertical' ? {
         onMouseEnter: (e: React.MouseEvent) => { handleMouse(e, true) },
         onMouseLeave: (e: React.MouseEvent) => { handleMouse(e, false) }
-    } : {}
+    } : { }
     const renderChildren = () => {
         const subMenuClasses = classNames('ararin-submenu', {
             'menu-opened': menuOpen
@@ -63,9 +64,17 @@ const SubMenu: React.FC<SubMenuProps>  = props => {
             }
         })
         return(
-            <ul className={subMenuClasses}>
-                {childrenCpmponent}
-            </ul>
+            <Transition
+                in={menuOpen}
+                timeout={300}
+                animation="zoom-in-top"
+                appear
+                unmountOnExit
+            >
+                <ul className={subMenuClasses}>
+                    {childrenCpmponent}
+                </ul>
+            </Transition>
         )
     }
     return(
