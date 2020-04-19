@@ -90,7 +90,7 @@ const App: React.FC = () => {
 				<Button type="primary" onClick={() => { setShow(!show) }}>开关</Button>
 				<Transition
 					in={show}
-					timeout={30000}
+					timeout={300}
 					animation="zoom-in-left"
 					// wrapper
 				>
