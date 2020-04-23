@@ -18,7 +18,7 @@ const wrapperStyle = {
 	width: '500px'
 }
 
-const storyWrapper = stroyFn => ( 
+const storyWrapper = stroyFn => (  
 		<div style = { wrapperStyle } >
 			<h3> 组件演示 </h3> 
 			{stroyFn()} 
