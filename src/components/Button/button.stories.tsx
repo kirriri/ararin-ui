@@ -25,16 +25,6 @@ const buttonWithType = () => (
 
 storiesOf('Button component', module)
   // .addDecorator(withInfo)
-  .addParameters({
-    info: {
-      // text: `
-      //   ~~~js
-      //     const a = 'b'
-      //   ~~~
-      // `
-      inline: true
-    }
-  })
   .add('Button', defaultButton)
   .add('不同尺寸的 Button', buttonWithSize)
   .add('不同类型的 Button', buttonWithType)
