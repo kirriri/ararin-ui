@@ -1,8 +1,9 @@
-import React, { FC, useState, KeyboardEvent, ChangeEvent, ReactElement, useEffect } from 'react'
+import React, { FC, useState, KeyboardEvent, ChangeEvent, ReactElement, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import Input, { InputProps } from '../Input/input'
 import Icon from '../Icon/icon';
 import useDebounce from '../../hooks/useDebounce'
+import useClickOutside from '../../hooks/useClickOutside'
 
 export interface DataSourceObject {
     value: string,
@@ -30,9 +31,13 @@ export const AutoComplete: FC<AutoCompleteProps> = props => {
     const [ loading, setLoading ] = useState(false)
     const useDebounceValue = useDebounce(inputValue, 500)
     const [ highlightIndex, setHighlightIndex ] = useState(-1)
-
+    const triggerSearch = useRef(false)
+    const componentRef = useRef<HTMLDivElement>(null)
+    useClickOutside(componentRef, () => {
+        setSuggestion([])
+    })
     useEffect(() => {
-        if(useDebounceValue) {
+        if(useDebounceValue && triggerSearch) {
             const result = fetchSuggestions(useDebounceValue)
             if(result instanceof Promise) {
                 console.log('1111111')
@@ -53,6 +58,7 @@ export const AutoComplete: FC<AutoCompleteProps> = props => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim()
         setInputValue(value)
+        triggerSearch.current = true
     }
 
     const handleSelect = (item: DataSourceType) => {
@@ -61,6 +67,7 @@ export const AutoComplete: FC<AutoCompleteProps> = props => {
         if(onSelect) {
             onSelect(item)
         }
+        triggerSearch.current = false
     }
 
     const highlight = (index: number) => {
@@ -125,7 +132,7 @@ export const AutoComplete: FC<AutoCompleteProps> = props => {
     }
 
     return (
-        <div className="ararin-auto-compolete">
+        <div className="ararin-auto-compolete" ref={componentRef}>
             <Input 
                 value={inputValue}
                 onChange={handleChange}
