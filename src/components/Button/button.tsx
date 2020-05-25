@@ -70,6 +70,6 @@ export const Button: FC<ButtonProps> = props => {
 Button.defaultProps = {
     disabled: false,
     type: "default"
-}
+} 
 
 export default Button;

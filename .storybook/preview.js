@@ -36,6 +36,7 @@ addParameters({
 const loaderFn = () => {
 	return [
 		require('../src/components/Button/button.stories.tsx'),
+		require('../src/components/Input/input.stories'),
 	]
 }
 
