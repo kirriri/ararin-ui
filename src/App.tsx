@@ -32,7 +32,7 @@ const App: React.FC = () => {
 	return (
 		<div>
 			<Upload
-				action="http://jsonplaceholder.typicode.com/posts/1"
+				action="https://jsonplaceholder.typicode.com/posts/"
 			>
 
 			</Upload>
