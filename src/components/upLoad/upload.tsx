@@ -37,6 +37,17 @@ export const UpLoad: FC<UploadProps> = props => {
 
     const fileInput = useRef<HTMLInputElement>(null)
     const [ fileList, setFileList ] = useState<uploadFile[]>([])
+    const updateFileList = (upDateFile: uploadFile, updateObj: Partial<uploadFile>) => {
+        setFileList(prevList => {
+            return prevList.map(file => {
+                if(file.uid === upDateFile.uid) {
+                    return { ...file, ...updateObj }
+                }else {
+                    return file
+                }
+            })
+        })
+    }
 
     const handleClick = () => {
         if(fileInput.current) {
@@ -72,10 +83,8 @@ export const UpLoad: FC<UploadProps> = props => {
                 onUploadProgress: (e) => {
                     let percentage = Math.round((e.loaded * 100) / e.total) || 0
                     if(percentage < 100) {
-                        setFileList(prevFileList => {
-                            console.log(prevFileList)
-                            return prevFileList
-                        })
+                        updateFileList(_file, {percent: percentage, status: 'uploading'})
+                        console.log(fileList)
                         if(onProgress) {
                             onProgress(percentage, file)
                         }
@@ -102,6 +111,7 @@ export const UpLoad: FC<UploadProps> = props => {
 
     const upLoadFiles = (files: FileList) => {
         let postFiles = Array.from(files)
+        console.log(postFiles)
         postFiles.forEach(file => {
             if(!beforeUpload) {
                 post(file)
