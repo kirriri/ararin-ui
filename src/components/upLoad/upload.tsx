@@ -1,20 +1,22 @@
 import React, { FC, useRef, ChangeEvent, useState } from 'react'
 import axios from 'axios'
-
 import Buttton from '../Button/button'
+import UploadList from './uploadList/unloadList'
 
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error'
 
 export interface UploadProps {
     action: string,
+    defaultFileList?: UploadFile[],
     beforeUpload?: (file: File) => boolean | Promise<File>,
     onProgress?: (precentage: number, file: File) => void,
     onSuccess?: (data: any, file: File) => void,
     onError?: (err: any, file: File) => void,
-    onChange?: (file: File) => void
+    onChange?: (file: File) => void,
+    onRemove?: (file: UploadFile) => void
 }
 
-export interface uploadFile {
+export interface UploadFile {
     uid: string,
     size: number,
     name: string,
@@ -29,15 +31,17 @@ export const UpLoad: FC<UploadProps> = props => {
     const {
         action,
         beforeUpload,
+        defaultFileList,
         onProgress,
         onError,
         onSuccess,
         onChange,
+        onRemove
     } = props
 
     const fileInput = useRef<HTMLInputElement>(null)
-    const [ fileList, setFileList ] = useState<uploadFile[]>([])
-    const updateFileList = (upDateFile: uploadFile, updateObj: Partial<uploadFile>) => {
+    const [ fileList, setFileList ] = useState<UploadFile[]>(defaultFileList || [])
+    const updateFileList = (upDateFile: UploadFile, updateObj: Partial<UploadFile>) => {
         setFileList(prevList => {
             return prevList.map(file => {
                 if(file.uid === upDateFile.uid) {
@@ -65,7 +69,7 @@ export const UpLoad: FC<UploadProps> = props => {
     }
 
     const post = (file: File) => {
-        let _file: uploadFile = {
+        let _file: UploadFile = {
             uid: Date.now() + 'upload-file',
             status: 'ready',
             name: file.name,
@@ -84,7 +88,6 @@ export const UpLoad: FC<UploadProps> = props => {
                     let percentage = Math.round((e.loaded * 100) / e.total) || 0
                     if(percentage < 100) {
                         updateFileList(_file, {percent: percentage, status: 'uploading'})
-                        console.log(fileList)
                         if(onProgress) {
                             onProgress(percentage, file)
                         }
@@ -92,6 +95,7 @@ export const UpLoad: FC<UploadProps> = props => {
                 }
             }).then(resp => {
                 console.log(resp)
+                updateFileList(_file, {status: 'success', response: resp.data})
                 if(onSuccess) {
                     onSuccess(resp.data, file)
                 }
@@ -100,6 +104,7 @@ export const UpLoad: FC<UploadProps> = props => {
                 }
             }).catch(err => {
                 console.error(err)
+                updateFileList(_file, {status: 'error', error: err})
                 if(onError) {
                     onError(err, file)
                 }
@@ -107,6 +112,15 @@ export const UpLoad: FC<UploadProps> = props => {
                     onChange(file)
                 }
             })
+    }
+
+    const handleRemove = (file: UploadFile) => {
+        setFileList(prevList => {
+            return prevList.filter(item => item.uid !== file.uid)
+        })
+        if(onRemove) {
+            onRemove(file)
+        }
     }
 
     const upLoadFiles = (files: FileList) => {
@@ -136,6 +150,7 @@ export const UpLoad: FC<UploadProps> = props => {
                 type="primary"
                 onClick={handleClick}
             >
+                上传文件
                <input 
                     className="ararin-file-input"
                     type="file"
@@ -143,8 +158,11 @@ export const UpLoad: FC<UploadProps> = props => {
                     onChange={handleFileChange}
                     ref={fileInput}
                 />
-                UpLoad File
             </Buttton>
+            <UploadList 
+                fileList={fileList}
+                onRemove={handleRemove}
+            />
         </div>
     )
 }
