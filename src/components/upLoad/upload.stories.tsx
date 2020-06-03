@@ -32,6 +32,10 @@ export const SimpleUpLoad = () => {
             onError={action('error')}
             onChange={action('changed')}
             defaultFileList={defaultFileList}
+            data={{'key': 'value'}}
+            header={{'X-Powered-By': 'ararin'}}
+            accept=".png"
+            multiple
             // beforeUpload={filePromise}
         />
     )
