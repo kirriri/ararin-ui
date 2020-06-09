@@ -17,25 +17,11 @@ const App: React.FC = () => {
 
 	const [ title, setTitle ] = useState(false)
 
-	useEffect(() => {
-		axios.get('http://jsonplaceholder.typicode.com/posts/1')
-			.then(resp => {
-				console.log('config', resp.config)
-				console.log('data', resp.data)
-				console.log('headers', resp.headers)
-				console.log('request', resp.request)
-				console.log('status', resp.status)
-				console.log('statusText', resp.statusText)
-			})
-	})
+	
 	
 	return (
 		<div>
-			<Upload
-				action="https://jsonplaceholder.typicode.com/posts/"
-			>
-
-			</Upload>
+			
 		</div>
 	);
 }
